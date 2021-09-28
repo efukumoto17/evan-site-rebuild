@@ -24,8 +24,8 @@ export default function TrackList({ tracks }) {
       <div className={classes.root}>
          <List>
             {tracks.map(track => (
-            <div>
-               <ListItem key={track.id}>
+            <div key={track.id}>
+               <ListItem >
                   <ListItemIcon>
                      <img style={{ height: 50 }} src={track.album.images[0].url} alt={track.name} />
                   </ListItemIcon>
