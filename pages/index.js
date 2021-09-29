@@ -24,13 +24,11 @@ export default function Home({}) {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
-
           <li className={utilStyles.listItem} key={2020}>
             <Link href={`/whatsPlaying/home`}>
               <a>{"Spotify Player"}</a>
             </Link>
             <br />
-            
           </li>
         </ul>
       </section>
