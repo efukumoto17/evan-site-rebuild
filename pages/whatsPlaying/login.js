@@ -1,10 +1,15 @@
-import { useSession, signIn, signOut } from "next-auth/client"
+import { signIn } from "next-auth/client"
+import { useRouter } from "next/router"
 
 export default function Login() {
+   const router = useRouter();
+
    const handleLogin = () => {
-      signIn("spotify", { 
-         callbackUrl: "http://localhost:3000/whatsPlaying/home" 
-         // callbackUrl: "http://evanfukumoto.com/whatsPlaying/home" 
+      // Get the callbackUrl from the query params, or use default
+      const callbackUrl = router.query.callbackUrl || "http://127.0.0.1:3000/whatsPlaying/home";
+
+      signIn("spotify", {
+         callbackUrl: callbackUrl
       });
     };
 

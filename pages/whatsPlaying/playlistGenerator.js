@@ -1,22 +1,8 @@
 import { getSession } from "next-auth/client";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import Layout from "../../components/layout";
 import PlaylistGenerator from "../../components/spotify/PlaylistGenerator";
 
-export default function PlaylistGeneratorPage({ session }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      router.push("/whatsPlaying/login");
-    }
-  }, [session, router]);
-
-  if (!session) {
-    return null;
-  }
-
+export default function PlaylistGeneratorPage() {
   return (
     <Layout>
       <PlaylistGenerator />
@@ -30,7 +16,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/whatsPlaying/login",
+        destination: "/whatsPlaying/login?callbackUrl=http://127.0.0.1:3000/whatsPlaying/playlistGenerator",
         permanent: false,
       },
     };
