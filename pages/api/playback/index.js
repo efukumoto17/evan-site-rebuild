@@ -10,9 +10,9 @@ export default async (req, res) => {
         res,
       }
     );
-    res.status(200).send({ success: true, playback });
+    return res.status(200).json({ success: true, playback });
   } catch (err) {
     console.log(err.message);
-    res.json({ success: false });
+    return res.status(500).json({ success: false });
   }
 };

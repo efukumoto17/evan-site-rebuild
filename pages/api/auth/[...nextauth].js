@@ -1,17 +1,17 @@
 import NextAuth from "next-auth"
-import { session } from "next-auth/client"
-import SpotifyProvider from "next-auth/providers/spotify"
-export default NextAuth({  
-   // Configure one or more authentication providers  
-   providers: [    
-      SpotifyProvider({
+import Providers from "next-auth/providers"
+
+export default NextAuth({
+   // Configure one or more authentication providers
+   providers: [
+      Providers.Spotify({
          scope: 'user-read-private user-read-email user-read-playback-state user-read-recently-played user-top-read user-modify-playback-state user-library-read playlist-modify-public playlist-modify-private',
          clientId: process.env.SPOTIFY_CLIENT_ID,
          clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      }),    
-      // ...add more providers here  
+      }),
+      // ...add more providers here
    ],
-   callbacks: { 
+   callbacks: {
       async jwt(token, _, account) {
         if (account) {
           token.id = account.id

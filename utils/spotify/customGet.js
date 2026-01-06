@@ -6,14 +6,16 @@ import Router from "next/router";
 
 export const customGet = async (url, ctx, fn, params) => {
   const session = await getSession(ctx);
-  
+
 
   if (!session?.user) {
-    ctx.res?.writeHead(302, {
-      Location: "/whatsPlaying/login",
-    });
-    ctx.res?.end();
-    return;
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: "/whatsPlaying/login",
+      });
+      ctx.res.end();
+    }
+    throw new Error('No session found');
   }
 
   const resp = await fetch(url, {
@@ -28,11 +30,13 @@ export const customGet = async (url, ctx, fn, params) => {
   }
 
   if (resp.status === 401 && ctx.req) {
-    ctx.res?.writeHead(302, {
-      Location: "/whatsPlaying/login",
-    });
-    ctx.res?.end();
-    return;
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: "/whatsPlaying/login",
+      });
+      ctx.res.end();
+    }
+    throw new Error('Unauthorized');
   }
   // console.log("resp")
   // console.log(resp)

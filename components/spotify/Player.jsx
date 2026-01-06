@@ -27,8 +27,8 @@ export default function SpotifyPlayer({  playing }) {
          const data = res.data;
          data?.success ? setIsError(false) : setIsError(true);
          console.log(res.data);
-         setNowPlaying(res.data?.playback?.item);
-         setIsPlaying(res.data?.playback?.is_playing);
+         setNowPlaying(res.data?.playback?.item || {});
+         setIsPlaying(res.data?.playback?.is_playing || false);
          const artistId = res.data?.playback?.item?.artists[0]?.id;
          const topTracks = await axios.get(`/api/artistsTopSongs/${artistId}`, {
             headers: {
@@ -111,16 +111,18 @@ export default function SpotifyPlayer({  playing }) {
                      }
                   </div>
                   <div className={utilStyles.flex_small}>
-                     <img src={ nowPlaying.album?.images[0].url} style={{ height: 150 }}/>
+                     {nowPlaying.album?.images?.[0]?.url && (
+                        <img src={nowPlaying.album.images[0].url} style={{ height: 150 }}/>
+                     )}
                   </div>
                </div>
                {/* {nowPlaying.name && 
                 <SongLyrics song={nowPlaying?.name + " " + nowPlaying.artists[0]?.name }/>} */}
             </Paper>
             </Box>
-            {artistTopTracks?.length > 0 &&
+            {artistTopTracks?.length > 0 && nowPlaying.artists?.[0]?.name &&
                <div>
-                  <h2>{nowPlaying.artists[0]?.name + "'s"} Top Tracks</h2>
+                  <h2>{nowPlaying.artists[0].name + "'s"} Top Tracks</h2>
                   <TrackList tracks={artistTopTracks} />
                </div>
             }
